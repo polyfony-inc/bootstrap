@@ -1,0 +1,21 @@
+{
+    "name": "sib-retail/polyfony-bootstrap",
+    "description": "Helper to use Bootstrap's HTML elements",
+    "keywords": ["Bootrap", "PHP", "Helper", "Alert", "Modal", "Progress"],
+    "type": "library",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "AnnoyingTechnology"
+        }
+    ],
+    "require":{
+        "php":">=7.1.0",
+        "sib-retail/polyfony": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bootstrap\\": "src/Bootstrap"
+        }
+    }
+}
