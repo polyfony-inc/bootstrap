@@ -29,21 +29,22 @@ class Alert {
 		'dark'
 	];
 
-	private $message;	// the message/body of the alert
-	private $title;		// the title/heading of the alert
-	private $footer;	// the footer of the alert (optional)
-	private $class;		// the class of the alert, based on bootstrap 4
+	private $message;		// the message/body of the alert
+	private $title;			// the title/heading of the alert
+	private $footer;		// the footer of the alert (optional)
+	private $class;			// the class of the alert, based on bootstrap 4
+	private $dismissible; 	// the ability for the alert to be dismissed 
 
-	public function __construct(
-		$class   =null,
-		$title   =null, 
-		$message =null,
-		$footer  =null
-	) {
-		$this->setClass($class);
-		$this->setTitle($title);
-		$this->setMessage($message);
-		$this->setFooter($footer);
+	public function __construct(array $options = []) {
+
+		// initialize with the provided options (if any)
+		return $this
+			->setClass(			isset($options['class']) 		? $options['class'] : 		null)
+			->setTitle(			isset($options['title']) 		? $options['title'] : 		null)
+			->setMessage(		isset($options['message']) 		? $options['message'] : 	null)
+			->setFooter(		isset($options['footer']) 		? $options['footer'] : 		null)
+			->setDismissible(	isset($options['dismissible']) 	? $options['dismissible'] :	false);
+
 	}
 
 	// setters
@@ -67,6 +68,11 @@ class Alert {
 
 	public function setFooter($footer=null) :self {
 		$this->footer = $footer;
+		return $this;
+	}
+
+	public function setDismissible($dismissible = false) :self {
+		$this->dismissible = is_bool($dismissible) ? $dismissible : false;
 		return $this;
 	}
 
@@ -94,9 +100,25 @@ class Alert {
 		
 		// create a bootstrap alert
 		$alert = new \Polyfony\Element('div',[
-			'class'	=>"alert alert-{$this->getClass()}",
+			'class'	=>"alert alert-{$this->getClass()}" . (!$this->dismissible ? '' : ' alert-dismissible fade show'),
 			'role'	=>'alert'
 		]);
+
+		if($this->dismissible) {
+
+			$alert
+				->adopt((new \Polyfony\Element('button', [
+					'type'			=>'button',
+					'class'			=>'close',
+					'data-dismiss'	=>'alert',
+					'arial-label'	=>'Close'
+				]))
+				->adopt(new \Polyfony\Element('span', [
+					'aria-hidden'	=>'true',
+					'html'			=>'&times;'
+				])));
+
+		}
 
 		// add a title
 		if($this->title) {
@@ -107,14 +129,14 @@ class Alert {
 		}
 
 		if($this->message) {
-			$alert->adopt(new \Polyfony\Element('p',[
+			$alert->adopt(new \Polyfony\Element('span',[
 				'text'	=>$this->getMessage()
 			]));
 		}
 
 		if($this->footer) {
 			$alert->adopt(new \Polyfony\Element('hr'));
-			$alert->adopt(new \Polyfony\Element('p',[
+			$alert->adopt(new \Polyfony\Element('span',[
 				'text'	=>$this->getFooter()
 			]));
 		}
@@ -129,10 +151,20 @@ class Alert {
 	}
 	
 	// save the alert, to allow for a "one time only" flash
-	public function save() :bool {
+	public function save() :self {
 
 		// store the alert in the session
-		return \Polyfony\Store\Session::put(self::FLASH_KEY, $this, true);
+		\Polyfony\Store\Session::put(self::FLASH_KEY, $this, true);
+
+		// allow chaining
+		return $this;
+
+	}
+
+	// log that alert
+	public function log() :self {
+
+		// code to produce here
 
 	}
 
