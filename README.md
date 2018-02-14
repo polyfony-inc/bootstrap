@@ -1,17 +1,14 @@
-## Bootstrap Helpers
-
-...
-
 #### Bootstrap\Alert
 
 * You can use from different types of bootstrap alerts (previously called Notice) to suit your needs
 
 ```php
 Bootstrap\Alert([
-	'class'		=>{info,danger,primary,secondary,dark,light},
-	'message'	=>null,
-	'title'		=>null,
-	'footer'	=>null
+	'class'			=>null,
+	'message'		=>null,
+	'title'			=>null,
+	'footer'		=>null,
+	'dismissible'	=>true
 ])
 ```
 All will be converted to HTML automatically using bootstrap 4 friendly classes.
@@ -23,7 +20,7 @@ $alert->getTitle()
 $alert->getFooter()
 ```
 
-Typical example
+Typical example using the "flashbag"
 
 ```php
 // set an alert depending on the presence of errors
@@ -47,6 +44,11 @@ Then in a shared view, available everywhere
 ```html
 <?= Bootstrap\Alert::flash(); ?>
 ```
+
+**You can ask the Logger engine to log your alert by applying ->log() to the alert object.**
+* Alert of class danger will map to a Polyfony/Log event of type critical
+* Alert of class warning will map to a Polyfony/Log event of type warning
+* Any other class will map to a Polyfony/Log event of type info
 
 #### Bootstrap\Modal
 

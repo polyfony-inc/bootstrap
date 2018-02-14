@@ -165,6 +165,33 @@ class Alert {
 	public function log() :self {
 
 		// code to produce here
+		switch($this->getClass()) {
+
+			case 'danger':	
+				// critical
+				\Polyfony\Logger::critical(json_encode([
+					$this->title,$this->message,$this->footer
+				]));
+			break;
+
+			case 'warning':
+				// warning
+				\Polyfony\Logger::warning(json_encode([
+					$this->title,$this->message,$this->footer
+				]));
+			break;
+
+			default:
+				// info
+				\Polyfony\Logger::info(json_encode([
+					$this->title,$this->message,$this->footer
+				]));
+			break;
+
+		}
+
+		// allow chaining
+		return $this;
 
 	}
 
