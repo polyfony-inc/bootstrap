@@ -16,8 +16,9 @@ namespace Bootstrap;
 
 class Alert {
 	
-	const DEFAULT_CLASS 	= 'info';
-	const AVAILABLE_CLASSES = [
+	const FLASH_KEY 		= 'BootstrapAlert'; // unlikely that anyone would want to change that, so... const.
+	const DEFAULT_CLASS 	= 'info';			// the default class of an alert
+	const AVAILABLE_CLASSES = [					// list of all available alerts, based on bootstrap 4
 		'primary',
 		'secondary',
 		'success',
@@ -28,10 +29,10 @@ class Alert {
 		'dark'
 	];
 
-	private $message;
-	private $title;
-	private $footer;
-	private $class;
+	private $message;	// the message/body of the alert
+	private $title;		// the title/heading of the alert
+	private $footer;	// the footer of the alert (optional)
+	private $class;		// the class of the alert, based on bootstrap 4
 
 	public function __construct(
 		$class   =null,
@@ -47,22 +48,26 @@ class Alert {
 
 	// setters
 
-	public function setClass($class=null) {
+	public function setClass($class=null) :self  {
 		// make sure that class is allowed and supported by bootstrap
 		$this->class = in_array($class, self::AVAILABLE_CLASSES) ? 
 			$class : self::DEFAULT_CLASS;
+		return $this;
 	}
 
-	public function setTitle($title=null) {
+	public function setTitle($title=null) :self  {
 		$this->title = $title;
+		return $this;
 	}
 
-	public function setMessage($message=null) {
+	public function setMessage($message=null) :self  {
 		$this->message = $message;
+		return $this;
 	}
 
-	public function setFooter($footer=null) {
+	public function setFooter($footer=null) :self {
 		$this->footer = $footer;
+		return $this;
 	}
 
 	// getter
@@ -123,6 +128,33 @@ class Alert {
 		return $this->getHtml();
 	}
 	
+	// save the alert, to allow for a "one time only" flash
+	public function save() :bool {
+
+		// store the alert in the session
+		return \Polyfony\Store\Session::put(self::FLASH_KEY, $this, true);
+
+	}
+
+	// flashes any previously stored alerts
+	public static function flash(bool $delete_after_flashing = true) {
+
+		// code here
+		if(\Polyfony\Store\Session::has(self::FLASH_KEY)) {
+
+			// get the alert
+			$alert = \Polyfony\Store\Session::get(self::FLASH_KEY);
+
+			// delete it from the store, unless it is explicitely prevented
+			!$delete_after_flashing ?: \Polyfony\Store\Session::remove(self::FLASH_KEY);
+
+			// and return it, for display purposes
+			return $alert;
+
+		}
+
+	}
+
 }
 
 ?>
