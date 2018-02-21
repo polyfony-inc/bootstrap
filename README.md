@@ -93,7 +93,7 @@ echo $modal;
 
 #### Bootstrap\Dropdown
 
-* generate a progress bar element
+* generate a dropdown element
 ```php
 
 $dropdown = new Bootstrap\Dropdown();
