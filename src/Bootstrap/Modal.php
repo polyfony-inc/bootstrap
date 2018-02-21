@@ -25,23 +25,26 @@ class Modal {
 
 	// the modal itself
 	private $titleAttributes 		= [];
-	private $titleIcon 	= '';
+	private $titleIcon 				= '';
 
 	// the body
 	private $bodyAttributes 		= [];
+
+	// the footer
+	private $footerAttributes		= [];
 
 	// the trigger button
 	private $triggerAttributes		= [];
 	private $triggerIcon			= '';
 
-	// footer option
-	private $options 				= [];
-
 
 	// main constructor with some global options
 	public function __construct($size=null, $position=null, $id=null) {
 
-		return $this;
+		return $this
+			->setSize($size)
+			->setPosition($position)
+			->setId($id);
 	}
 
 	// force a specific id
@@ -82,6 +85,13 @@ class Modal {
 		return $this;
 	}
 
+	// set the footer of the modal
+	public function setFooter($attributes) {
+
+		$this->footerAttributes = $attributes;
+		return $this;
+	}
+
 	// set the button of the modal
 	public function setTrigger(array $attributes, string $icon=null): self {
 
@@ -105,12 +115,24 @@ class Modal {
 
 	// returns only the modal element
 	public function getModal() {
-
+		
 	}
 
 	// return only the modal trigger/button
 	public function getTrigger() {
+		// modal trigger
+		$trigger 	= new pf\Element('button', array_replace([
+			'data-toggle'	=>'modal',
+			'data-target'	=>'#modal-'.$this->modalId,
+			'type'			=>'button',
+		], $this->triggerAttributes));
 
+		// if an icon is to be used
+		if($this->triggerIcon) {
+			$triggerIcon = new pf\Element('span', ['class'=>$this->triggerIcon]);
+			$trigger->adopt($triggerIcon, true);
+		}
+		return $trigger;
 	}
 
 	public function __toString() {
@@ -132,60 +154,50 @@ class Modal {
 		]);
 
 		$modalDialog = new pf\Element('div', [
-			'class'	=>'modal-dialog modal-dialog-centered',
-			'role'	=>'document'
+			'class'			=>'modal-dialog modal-dialog-centered '.self::AVAILABLE_SIZES[$this->modalSize],
+			'role'			=>'document'
 		]);
 
 		$modalContent = new pf\Element('div', [
-			'class'=>'modal-content'
+			'class'			=>'modal-content'
 		]);
 
 		$modalHeader = new pf\Element('div', [
-			'class'=>'modal-header'
+			'class'			=>'modal-header'
 		]);
 
 		$modalTitle = new pf\Element('div', array_replace([
-			'class'=>'modal-title'
+			'class'			=>'modal-title'
 		],$this->titleAttributes));
 
 		$modalTitleIcon = new pf\Element('span', [
-			'class'=>$this->titleIcon
+			'class'			=>$this->titleIcon
 		]);
 
 		$modalTitleClose = new pf\Element('button', [
-			'class'=>'close',
-			'data-dismiss'=>'modal',
-			'aria-label'=>'Close'
+			'class'			=>'close',
+			'data-dismiss'	=>'modal',
+			'aria-label'	=>'Close'
 		]);
 		$modalTitleCloseIcon = new pf\Element('span', [
-			'aria-hidden'=>'true',
-			'html'=>'&times;'
+			'aria-hidden'	=>'true',
+			'html'			=>'&times;'
 		]);
 
 
-		$modalBody = new pf\Element('div', [
-			'class'=>'modal-body',
-			'text'=>'body'
-		]);
+		$modalBody = $this->bodyAttributes ? new pf\Element('div', 
+			array_merge(
+				$this->bodyAttributes, 
+				['class'=>'modal-body']
+			)
+		) : '';
 
-		$modalFooter = new pf\Element('div', [
-			'class'=>'modal-header',
-			'text'=>'footer'
-		]);
-
-		
-		// modal trigger
-		$trigger 	= new pf\Element('button', array_replace([
-			'data-toggle'	=>'modal',
-			'data-target'	=>'#modal-'.$this->modalId,
-			'type'			=>'button',
-		], $this->triggerAttributes));
-
-		// if an icon is to be used
-		if($this->triggerIcon) {
-			$triggerIcon = new pf\Element('span', ['class'=>$this->triggerIcon]);
-			$trigger->adopt($triggerIcon, true);
-		}
+		$modalFooter = $this->footerAttributes ? new pf\Element('div', 
+			array_merge(
+				$this->footerAttributes, 
+				['class'=>'modal-footer']
+			)
+		) : '';
 
 		// assemble elements
 		$container
@@ -205,14 +217,11 @@ class Modal {
 						)
 					)
 					->adopt($modalBody)
-					->adopt(
-						$modalFooter
-						->adopt(implode('',$this->options))
-					)
+					->adopt($modalFooter)
 				)
 			)
 		)
-		->adopt($trigger);
+		->adopt($this->getTrigger());
 
 		// return formatted html
 		return (string) $container;
