@@ -91,10 +91,33 @@ echo $modal;
 
 ```
 
-#### Bootstrap\Progress
+#### Bootstrap\Dropdown
 
 * generate a progress bar element
 ```php
+
+$dropdown = new Bootstrap\Dropdown();
+
+$dropdown
+	->setTrigger(
+		[
+			'text'=>'Click this nice looking modal',
+			'class'=>'btn btn-primary'
+		],
+		'fa fa-send'
+	)
+	->addItem([
+		'text'=>'To this',
+		//'class'=>'some-cool-class'
+		//'html'=>'Non protected text'
+		
+	])
+	->addDivider()
+	->addHeader([
+		'text'=>'Pretty Header'
+	]);
+
+echo $dropdown;
 
 ```
 
