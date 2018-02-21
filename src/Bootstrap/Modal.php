@@ -9,7 +9,8 @@ class Modal {
 	const AVAILABLE_SIZES 		= [
 		'medium'	=>'',
 		'large'		=>'modal-lg',
-		'small'		=>'modal-sm'	
+		'small'		=>'modal-sm',
+		'xxl'		=>'' // dirty tweak to oversize a modal
 	];
 
 	const DEFAULT_POSITION 		= 'top';
@@ -155,7 +156,8 @@ class Modal {
 
 		$modalDialog = new pf\Element('div', [
 			'class'			=>'modal-dialog modal-dialog-centered '.self::AVAILABLE_SIZES[$this->modalSize],
-			'role'			=>'document'
+			'role'			=>'document',
+			'style'			=> $this->modalSize == 'xxl' ? 'max-width:95%' : '' // dirty tweak to allow supersized modal (not normally offered by bootstrap4)
 		]);
 
 		$modalContent = new pf\Element('div', [
