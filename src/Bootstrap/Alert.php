@@ -169,23 +169,26 @@ class Alert {
 
 			case 'danger':	
 				// critical
-				\Polyfony\Logger::critical(json_encode([
-					$this->title,$this->message,$this->footer
-				]));
+				\Polyfony\Logger::critical(
+					$this->title ? $this->title : $this->message,
+					[$this->title, $this->message, $this->footer]
+				);
 			break;
 
 			case 'warning':
 				// warning
-				\Polyfony\Logger::warning(json_encode([
-					$this->title,$this->message,$this->footer
-				]));
+				\Polyfony\Logger::warning(
+					$this->title ? $this->title : $this->message,
+					[$this->title, $this->message, $this->footer]
+				);
 			break;
 
 			default:
 				// info
-				\Polyfony\Logger::info(json_encode([
-					$this->title,$this->message,$this->footer
-				]));
+				\Polyfony\Logger::info(
+					$this->title ? $this->title : $this->message,
+					[$this->title, $this->message, $this->footer]
+				);
 			break;
 
 		}
