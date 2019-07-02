@@ -13,14 +13,8 @@ Bootstrap\Alert([
 ```
 All will be converted to HTML automatically using bootstrap 4 friendly classes.
 
-Manually getting back notice text
-```php
-$alert->getMessage()
-$alert->getTitle()
-$alert->getFooter()
-```
 
-Typical example using the "flashbag"
+### Typical example using the "flashbag"
 
 ```php
 // set an alert depending on the presence of errors
@@ -39,6 +33,27 @@ Response::setRedirect('/admin/');
 
 ```
 
+### Or using shortcuts
+These will build alerts of class `success` or `danger`. With the Locale *Operation succeeded* or *Operation failed*.
+
+```php
+
+use Bootstrap\Alert\Success as OK;
+use Bootstrap\Alert\Failure as KO;
+
+// [...]
+ 
+// set an alert depending on the presence of errors
+$foobar->doSomething() ? (new OK) : (new KO);
+
+// [...]
+
+// maybe you want to redirect somewhere
+Response::setRedirect('/admin/');
+
+```
+
+
 Then in a shared view, available everywhere
 
 ```html
@@ -50,14 +65,20 @@ Then in a shared view, available everywhere
 * Alert of class warning will map to a Polyfony/Log event of type warning
 * Any other class will map to a Polyfony/Log event of type info
 
+### Manually getting back notice text
+```php
+$alert->getMessage()
+$alert->getTitle()
+$alert->getFooter()
+```
+
 #### Bootstrap\Modal
 
 * generate a modal element
 ```php
 
-$modal = new Bootstrap\Modal();
 
-$modal
+echo (new Bootstrap\Modal)
 	->setTitle(
 		['text'=>'Hey!'],
 		'fa fa-car'
@@ -87,7 +108,6 @@ $modal
 		'fa fa-car'
 	);
 
-echo $modal;
 
 ```
 
@@ -96,9 +116,7 @@ echo $modal;
 * generate a dropdown element
 ```php
 
-$dropdown = new Bootstrap\Dropdown();
-
-$dropdown
+echo (new Bootstrap\Dropdown)
 	->setTrigger(
 		[
 			'text'=>'Click this nice looking modal',
@@ -117,7 +135,6 @@ $dropdown
 		'text'=>'Pretty Header'
 	]);
 
-echo $dropdown;
 
 ```
 
