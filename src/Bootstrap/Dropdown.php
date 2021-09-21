@@ -1,15 +1,15 @@
 <?php
 
 namespace Bootstrap;
-use Polyfony as pf;
+use Polyfony\{ Element };
 
 class Dropdown {
 
 	// generic attributes
-	private $dropdownId 	= null;
+	private $id 					= null;
 
 	// the items
-	private $dropdownItems 		= [];
+	private $items 					= [];
 
 	// the dropbown button itself
 	private $triggerAttributes		= [];
@@ -24,12 +24,15 @@ class Dropdown {
 
 	// force a specific id
 	public function setId($id) :self {
-		$this->dropdownId = $id;
+		$this->id = $id;
 		return $this;
 	}
 
 	// set the button of the modal
-	public function setTrigger(array $attributes, string $icon=null): self {
+	public function setTrigger(
+		array $attributes, 
+		string $icon=null
+	): self {
 
 		$this->triggerAttributes 	= $attributes;
 		$this->triggerIcon 			= $icon;
@@ -38,24 +41,42 @@ class Dropdown {
 
 	}
 
-	public function addItem(array $attributes, string $icon=null) :self {
+	public function addItem(
+		array $attributes, 
+		string $icon=null
+	) :self {
 
 		// create a new option
-		$item = new pf\Element('span', array_merge($attributes, ['class'=>'dropdown-item']));
+		$item = new Element(
+			'span', 
+			array_merge(
+				$attributes, 
+				['class'=>'dropdown-item']
+			)
+		);
 
 		// push that option
-		$this->dropdownItems[] = $item;
+		$this->items[] = $item;
 
 		return $this;
 	}
 
-	public function addHeader(array $attributes, string $icon=null) :self {
+	public function addHeader(
+		array $attributes, 
+		string $icon=null
+	) :self {
 
 		// create a new option
-		$item = new pf\Element('span', array_merge($attributes, ['class'=>'dropdown-header']));
+		$item = new Element(
+			'span', 
+			array_merge(
+				$attributes, 
+				['class'=>'dropdown-header']
+			)
+		);
 
 		// push that option
-		$this->dropdownItems[] = $item;
+		$this->items[] = $item;
 
 		return $this;
 
@@ -64,10 +85,13 @@ class Dropdown {
 	public function addDivider() :self {
 
 		// create a new option
-		$item = new pf\Element('div', ['class'=>'dropdown-divider']);
+		$item = new Element(
+			'div', 
+			['class'=>'dropdown-divider']
+		);
 
 		// push that option
-		$this->dropdownItems[] = $item;
+		$this->items[] = $item;
 
 		return $this;
 
@@ -77,20 +101,20 @@ class Dropdown {
 	private function getTrigger() {
 		
 		// modal id generation in case none was provided
-		$this->dropdownId = $this->dropdownId ? 
-			$this->dropdownId : uniqid();
+		$this->id = $this->id ? 
+			$this->id : uniqid();
 
 		// modal trigger
-		$trigger = new pf\Element('button', array_replace([
-			'id'			=>$this->dropdownId,
-			'data-toggle'	=>'dropdown',
-			'aria-expanded'	=>'false',
-			'type'			=>'button',
+		$trigger = new Element('button', array_replace([
+			'id'				=>$this->id,
+			'data-bs-toggle'	=>'dropdown',
+			'aria-expanded'		=>'false',
+			'type'				=>'button',
 		], $this->triggerAttributes));
 
 		// if an icon is to be used
 		if($this->triggerIcon) {
-			$triggerIcon = new pf\Element('span', ['class'=>$this->triggerIcon]);
+			$triggerIcon = new Element('span', ['class'=>$this->triggerIcon]);
 			$trigger->adopt($triggerIcon, true);
 		}
 		return $trigger;
@@ -101,17 +125,17 @@ class Dropdown {
 		
 
 		// global container
-		$container 	= new pf\Element('span', [
+		$container 	= new Element('span', [
 			'class'=>'dropdown'
 		]);
 
-		$menu = new pf\Element('div', [
+		$menu = new Element('div', [
 			'class'				=>'dropdown-menu',
-			'aria-labelledby'	=>$this->dropdownId
+			'aria-labelledby'	=>$this->id
 		]);
 
 		// for each items
-		foreach($this->dropdownItems as $item) {
+		foreach($this->items as $item) {
 			// add item
 			$menu->adopt($item);
 		}

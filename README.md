@@ -1,4 +1,9 @@
-#### Bootstrap\Alert
+# Introduction
+
+This class helps in building Bootstrap Modals, Dropdowns and Alerts.
+It currently support Bootstrap 5, other branches may support bootstrap5-alpha or bootstrap 4.
+
+## Alert
 
 * You can use from different types of bootstrap alerts (previously called Notice) to suit your needs
 
@@ -38,8 +43,10 @@ These will build alerts of class `success` or `danger`. With the Locale *Operati
 
 ```php
 
-use Bootstrap\Alert\Success as OK;
-use Bootstrap\Alert\Failure as KO;
+use Bootstrap\Alert\{ 
+	Success as OK,
+	Failure as KO
+};
 
 // [...]
  
@@ -72,7 +79,7 @@ $alert->getTitle()
 $alert->getFooter()
 ```
 
-#### Bootstrap\Modal
+## Modal
 
 * generate a modal element
 ```php
@@ -111,7 +118,7 @@ echo (new Bootstrap\Modal)
 
 ```
 
-#### Bootstrap\Dropdown
+## Dropdown
 
 * generate a dropdown element
 ```php

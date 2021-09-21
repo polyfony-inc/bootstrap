@@ -1,7 +1,7 @@
 <?php
 
 namespace Bootstrap;
-use Polyfony as pf;
+use Polyfony\{ Element };
 
 class Modal {
 
@@ -106,7 +106,7 @@ class Modal {
 	public function addOption($attributes, $icon=null) {
 
 		// create a new option
-		$option = new pf\Element('a', $attributes);
+		$option = new Element('a', $attributes);
 
 		// push that option
 		$this->footerButtons[] = $option;
@@ -122,7 +122,7 @@ class Modal {
 	// return only the modal trigger/button
 	public function getTrigger() {
 		// modal trigger
-		$trigger 	= new pf\Element('button', array_replace([
+		$trigger 	= new Element('button', array_replace([
 			'data-toggle'	=>'modal',
 			'data-target'	=>'#modal-'.$this->modalId,
 			'type'			=>'button',
@@ -130,7 +130,7 @@ class Modal {
 
 		// if an icon is to be used
 		if($this->triggerIcon) {
-			$triggerIcon = new pf\Element('span', ['class'=>$this->triggerIcon]);
+			$triggerIcon = new Element('span', ['class'=>$this->triggerIcon]);
 			$trigger->adopt($triggerIcon, true);
 		}
 		return $trigger;
@@ -143,10 +143,10 @@ class Modal {
 			$this->modalId : uniqid();
 
 		// global container
-		$container 	= new pf\Element('span');
+		$container 	= new Element('span');
 
 		// modal container itself
-		$modal 		= new pf\Element('div', [
+		$modal 		= new Element('div', [
 			'class'			=>'modal fade',
 			'tabindex'		=>'-1',
 			'role'			=>'dialog',
@@ -154,47 +154,47 @@ class Modal {
 			'id'			=>'modal-'.$this->modalId
 		]);
 
-		$modalDialog = new pf\Element('div', [
+		$modalDialog = new Element('div', [
 			'class'			=>'modal-dialog modal-dialog-centered '.self::AVAILABLE_SIZES[$this->modalSize],
 			'role'			=>'document',
 			'style'			=> $this->modalSize == 'xxl' ? 'max-width:95%' : '' // dirty tweak to allow supersized modal (not normally offered by bootstrap4)
 		]);
 
-		$modalContent = new pf\Element('div', [
+		$modalContent = new Element('div', [
 			'class'			=>'modal-content'
 		]);
 
-		$modalHeader = new pf\Element('div', [
+		$modalHeader = new Element('div', [
 			'class'			=>'modal-header'
 		]);
 
-		$modalTitle = new pf\Element('div', array_replace([
+		$modalTitle = new Element('div', array_replace([
 			'class'			=>'modal-title'
 		],$this->titleAttributes));
 
-		$modalTitleIcon = new pf\Element('span', [
+		$modalTitleIcon = new Element('span', [
 			'class'			=>$this->titleIcon
 		]);
 
-		$modalTitleClose = new pf\Element('button', [
+		$modalTitleClose = new Element('button', [
 			'class'			=>'close',
 			'data-dismiss'	=>'modal',
 			'aria-label'	=>'Close'
 		]);
-		$modalTitleCloseIcon = new pf\Element('span', [
+		$modalTitleCloseIcon = new Element('span', [
 			'aria-hidden'	=>'true',
 			'html'			=>'&times;'
 		]);
 
 
-		$modalBody = $this->bodyAttributes ? new pf\Element('div', 
+		$modalBody = $this->bodyAttributes ? new Element('div', 
 			array_merge(
 				$this->bodyAttributes, 
 				['class'=>'modal-body']
 			)
 		) : '';
 
-		$modalFooter = $this->footerAttributes ? new pf\Element('div', 
+		$modalFooter = $this->footerAttributes ? new Element('div', 
 			array_merge(
 				$this->footerAttributes, 
 				['class'=>'modal-footer']
