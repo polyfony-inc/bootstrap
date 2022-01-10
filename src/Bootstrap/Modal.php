@@ -123,8 +123,8 @@ class Modal {
 	public function getTrigger() {
 		// modal trigger
 		$trigger 	= new pf\Element('button', array_replace([
-			'data-toggle'	=>'modal',
-			'data-target'	=>'#modal-'.$this->modalId,
+			'data-bs-toggle'	=>'modal',
+			'data-bs-target'	=>'#modal-'.$this->modalId,
 			'type'			=>'button',
 		], $this->triggerAttributes));
 
