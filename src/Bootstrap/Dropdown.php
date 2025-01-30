@@ -31,7 +31,7 @@ class Dropdown {
 	// set the button of the modal
 	public function setTrigger(
 		array $attributes, 
-		string $icon=null
+		?string $icon=null
 	): self {
 
 		$this->triggerAttributes 	= $attributes;
@@ -43,7 +43,7 @@ class Dropdown {
 
 	public function addItem(
 		array $attributes, 
-		string $icon=null
+		?string $icon=null
 	) :self {
 
 		// create a new option
@@ -63,7 +63,7 @@ class Dropdown {
 
 	public function addHeader(
 		array $attributes, 
-		string $icon=null
+		?string $icon=null
 	) :self {
 
 		// create a new option
