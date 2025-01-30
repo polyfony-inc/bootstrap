@@ -94,7 +94,7 @@ class Modal {
 	}
 
 	// set the button of the modal
-	public function setTrigger(array $attributes, string $icon=null): self {
+	public function setTrigger(array $attributes, ?string $icon=null): self {
 
 		$this->triggerAttributes 	= $attributes;
 		$this->triggerIcon 			= $icon;

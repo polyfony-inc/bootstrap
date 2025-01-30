@@ -29,7 +29,7 @@ class Dropdown {
 	}
 
 	// set the button of the modal
-	public function setTrigger(array $attributes, string $icon=null): self {
+	public function setTrigger(array $attributes, ?string $icon=null): self {
 
 		$this->triggerAttributes 	= $attributes;
 		$this->triggerIcon 			= $icon;
@@ -38,7 +38,7 @@ class Dropdown {
 
 	}
 
-	public function addItem(array $attributes, string $icon=null) :self {
+	public function addItem(array $attributes, ?string $icon=null) :self {
 
 		// create a new option
 		$item = new pf\Element('span', array_merge($attributes, ['class'=>'dropdown-item']));
@@ -49,7 +49,7 @@ class Dropdown {
 		return $this;
 	}
 
-	public function addHeader(array $attributes, string $icon=null) :self {
+	public function addHeader(array $attributes, ?string $icon=null) :self {
 
 		// create a new option
 		$item = new pf\Element('span', array_merge($attributes, ['class'=>'dropdown-header']));
