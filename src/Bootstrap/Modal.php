@@ -55,7 +55,7 @@ class Modal {
 
 	// where to align the modal
 	public function setPosition($position) {
-		$this->modalPosition = array_key_exists($position, self::AVAILABLE_POSITIONS) ? 
+		$this->modalPosition = array_key_exists($position ?? '', self::AVAILABLE_POSITIONS) ? 
 			$position : self::DEFAULT_POSITION;
 
 		return $this;
@@ -63,7 +63,7 @@ class Modal {
 
 	// what size is that modal
 	public function setSize($size) {
-		$this->modalSize = array_key_exists($size, self::AVAILABLE_SIZES) ? 
+		$this->modalSize = array_key_exists($size ?? '', self::AVAILABLE_SIZES) ? 
 			$size : self::DEFAULT_SIZE;
 
 		return $this;
